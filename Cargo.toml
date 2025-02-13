@@ -1,76 +1,82 @@
-[package]
-name = "pop-cli"
-description = "An all-in-one tool for Polkadot development."
-version = "0.1.0"
+[profile.release]
+panic = "unwind"
+opt-level = 3
+debug = false
+
+[profile.production]
+inherits = "release"
+lto = true
+codegen-units = 1
+
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
 edition = "2021"
+documentation = "https://learn.onpop.io/"
+license = "GPL-3.0"
+repository = "https://github.com/r0gue-io/pop-cli"
+rust-version = "1.81.0"
+version = "0.6.0"
 
-[[bin]]
-name = "pop"
-path = "src/main.rs"
-
-[dev-dependencies]
-tempdir = "0.3.7"
-
-[dependencies]
+[workspace.dependencies]
 anyhow = "1.0"
-askama = "0.12"
-clap = { version = "4.4", features = ["derive"] }
-cliclack = "0.1"
-console = "0.15"
+assert_cmd = "2.0.14"
+cargo_toml = "0.20.3"
+dirs = "5.0"
 duct = "0.13"
-git2 = "0.18"
-log = "0.4"
-# semver = "1.0.20"
-strum = "0.26"
-strum_macros = "0.26"
-tempfile = "3.8"
+env_logger = "0.11.1"
+flate2 = "1.0.30"
+git2 = { version = "0.18", features = ["vendored-openssl"] }
+glob = "0.3.1"
+log = "0.4.20"
+mockito = "1.4.0"
+tar = "0.4.40"
+tempfile = "3.10"
+thiserror = "1.0.58"
+tokio-test = "0.4.4"
+toml = "0.5.0"
+
+# networking
+reqwest = { version = "0.12", features = ["json"] }
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
-url = { version = "2.5", optional = true }
-walkdir = "2.4"
+url = "2.5.4"
 
 # contracts
-contract-build = { version = "4.0.0-rc.3", optional = true }
-contract-extrinsics = { version = "4.0.0-rc.3", optional = true }
-sp-core = { version = "30.0.0", optional = true }
-subxt-signer = { version = "0.34.0", features = ["subxt", "sr25519"], optional = true }
-subxt = { version = "0.34.0", optional = true }
-ink_env = { version = "5.0.0-rc.2", optional = true }
-sp-weights = { version = "29.0.0", optional = true }
-ansi_term = "0.12.1"
+subxt-signer = { version = "0.38.0", features = ["subxt", "sr25519"] }
+subxt = "0.38.0"
+ink_env = "5.0.0"
+sp-core = "32.0.0"
+sp-weights = "31.0.0"
+scale-info = { version = "2.11.4", default-features = false, features = ["derive"] }
+scale-value = { version = "0.17.0", default-features = false, features = ["from-string", "parser-ss58"] }
+contract-build = "5.0.2"
+contract-extrinsics = "5.0.2"
+contract-transcode = "5.0.2"
+heck = "0.5.0"
 
 # parachains
-dirs = { version = "5.0", optional = true }
-indexmap = { version = "2.2", optional = true }
-reqwest = { version = "0.11", optional = true }
-serde_json = { version = "1.0", optional = true }
-serde = { version = "1.0", features = ["derive"], optional = true }
-symlink = { version = "0.1", optional = true }
-toml_edit = { version = "0.22", optional = true }
-tracing-subscriber = { version = "0.3", optional = true }
-zombienet-sdk = { git = "https://github.com/r0gue-io/zombienet-sdk", branch = "pop", optional = true }
-zombienet-support = { git = "https://github.com/r0gue-io/zombienet-sdk", branch = "pop", optional = true }
+askama = "0.12"
+regex = "1.10"
+walkdir = "2.5"
+indexmap = "2.2"
+toml_edit = { version = "0.22", features = ["serde"] }
+symlink = "0.1"
+serde_json = { version = "1.0", features = ["preserve_order"] }
+serde = { version = "1.0", features = ["derive"] }
+zombienet-sdk = "0.2.18"
+git2_credentials = "0.13.0"
 
-[features]
-default = ["contract", "parachain"]
-contract = [
-    "dep:contract-build",
-    "dep:contract-extrinsics",
-    "dep:sp-core",
-    "dep:subxt-signer",
-    "dep:subxt",
-    "dep:ink_env",
-    "dep:sp-weights",
-    "dep:url",
-]
-parachain = [
-    "dep:dirs",
-    "dep:indexmap",
-    "dep:reqwest",
-    "dep:serde_json",
-    "dep:symlink",
-    "dep:toml_edit",
-    "dep:tracing-subscriber",
-    "dep:url",
-    "dep:zombienet-sdk",
-    "dep:zombienet-support"
-]
+# pop-cli
+clap = { version = "4.5", features = ["derive"] }
+cliclack = "0.3.1"
+console = "0.15"
+os_info = { version = "3", default-features = false }
+strum = "0.26"
+strum_macros = "0.26"
+
+# wallet-integration
+axum = "0.7.9"
+open = "5.3.1"
+tower-http = "0.6.2"

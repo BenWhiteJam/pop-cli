@@ -1,0 +1,41 @@
+[package]
+description = "Library for generating, building, deploying, and calling ink! smart contracts."
+documentation = "https://docs.rs/pop-contracts/latest/pop_contracts"
+edition.workspace = true
+license = "Apache-2.0"
+name = "pop-contracts"
+readme = "README.md"
+repository.workspace = true
+version.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow.workspace = true
+duct.workspace = true
+reqwest.workspace = true
+tempfile.workspace = true
+thiserror.workspace = true
+tokio.workspace = true
+url.workspace = true
+
+heck.workspace = true
+ink_env.workspace = true
+sp-core.workspace = true
+sp-weights.workspace = true
+strum.workspace = true
+strum_macros.workspace = true
+subxt-signer.workspace = true
+subxt.workspace = true
+
+# cargo-contracts
+contract-build.workspace = true
+contract-extrinsics.workspace = true
+contract-transcode.workspace = true
+scale-info.workspace = true
+# pop
+pop-common = { path = "../pop-common", version = "0.6.0" }
+
+[dev-dependencies]
+# Used in doc tests.
+tokio-test.workspace = true
